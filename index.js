@@ -4,7 +4,7 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 
 app.get("/", (req, res) => {
-  res.send("This is a Node.js application running with v2.");
+  res.send("This is a Node.js application running with v3(git actions).");
 });
 
 app.listen(PORT, () => {
