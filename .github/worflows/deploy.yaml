@@ -1,0 +1,27 @@
+name: Deploy Localhost commit to Oracle VPS through github actions
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ubuntu
+          password: ${{ secrets.SSH_KEY }}
+          port: 22
+          script: |
+            cd /home/ubuntu/learning/nodejs-application-deploy-github-actions
+            git pull
+            docker compose down
+            docker compose up -d --build
+            echo "=== Testing deployment response ==="
+            curl -i http://localhost:8080
